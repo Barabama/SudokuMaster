@@ -1,24 +1,9 @@
 <!DOCTYPE html>
-<html lang="zh">
+<html lang="zh-CN">
   <head>
     <meta charset="UTF-8" />
     <title>Soduku</title>
-    <style>
-      body {
-        font-family: Arial, Helvetica, sans-serif;
-        font-size: 20px;
-        margin-top: 50px;
-      }
-      table {
-        border-collapse: collapse;
-      }
-      td {
-        width: 30px;
-        height: 30px;
-        text-align: center;
-        border: 1px solid black;
-      }
-    </style>
+    <link rel="stylesheet" href="style.css" />
   </head>
   <body>
     <h1>Welcome to Soduku Generator</h1>
@@ -34,44 +19,11 @@
 
     <button onclick="generate()">开始</button>
 
-    <table id="sudokuTable"></table>
 
-    <script>
-      function generate() {
-        var difficulty = document.getElementById("difficulty").value;
-        var xhr = new XMLHttpRequest();
-        xhr.open("POST", "/generate");
-        xhr.setRequestHeader("Content-Type", "application/json");
-        xhr.onreadystatechange = function () {
-          if (this.readyState === XMLHttpRequest.DONE && this.status === 200) {
-            var sudokuData = JSON.parse(this.responseText);
-            var answers = sudokuData["answers"];
-            var problems = sudokuData["problems"];
+    <div id="table-container">
+      
+    </div>
 
-            var table = document.getElementById("sudokuTable");
-
-            table.innerHTML = ""; // 清空表格内容
-
-            for (var i = 0; i < problems.length; i++) {
-              var sudoku = problems[i];
-
-              var sudokuTable = document.createElement("table");
-              for (var j = 0; j < sudoku.length; j++) {
-                var row = document.createElement("tr");
-                for (var k = 0; k < sudoku[j].length; k++) {
-                  var cell = document.createElement("td");
-                  if (sudoku[j][k] ==0) cell.textContent = "";
-                  else cell.textContent = sudoku[j][k];
-                  row.appendChild(cell);
-                }
-                sudokuTable.appendChild(row);
-              }
-              table.appendChild(sudokuTable);
-            }
-          }
-        };
-        xhr.send(JSON.stringify(difficulty));
-      }
-    </script>
+    <script src="script.js"></script>
   </body>
 </html>

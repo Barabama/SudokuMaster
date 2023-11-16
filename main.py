@@ -3,7 +3,7 @@ from concurrent.futures import ThreadPoolExecutor
 
 from soduku import get_sudoku, show_sudoku
 
-app = Flask(__name__)
+app = Flask(__name__, static_url_path="", static_folder="templates")
 
 executor = ThreadPoolExecutor(max_workers=10)
 
@@ -15,9 +15,11 @@ def home():
 
 @app.route("/generate", methods=["POST"])
 def generate_sudoku():
-    level = int(request.get_json())
+    data = request.get_json()
+    table_num, level = int(data["table_num"]), int(data["difficulty"])
+
     futures = []
-    for _ in range(9):
+    for _ in range(table_num):
         future = executor.submit(get_sudoku, level=level, clean_count=(18, 63))
         futures.append(future)
 
